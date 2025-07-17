@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+            templates
+        {% endblock %}
+    </title>
+</head>
+<body>
+    <header>
+        {% block header %}
+        <h1>Gerenciador de Estudos</h1> 
+        <nav>
+            <a href="{{url_for ('register')}}">Registre-se</a>
+            <a href="{{url_for ('login')}}">Login</a>
+        </nav>
+        {% blockend %}
+    </header>
+    
+    <main>
+        {% block conteudo %}
+
+        {% endblock %}
+    </main>
+
+    <footer>
+        {% block rodape %}
+        
+        {% endblock %}
+    </footer>
+</body>
+</html>
