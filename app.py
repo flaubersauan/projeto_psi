@@ -34,3 +34,5 @@ def dash():
 def logout():
     logout_user()
     return render_template('index.html')
+
+# Sauan guaxinim
