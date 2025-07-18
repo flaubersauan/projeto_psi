@@ -1,6 +1,7 @@
 from flask import *
 from flask_login import login_user, logout_user, login_manager, login_required, LoginManager
 from models import User
+from database import obter_conexao
 
 app = Flask(__name__)
 login_manager = LoginManager()
@@ -17,8 +18,24 @@ def index():
 
 @app.route('/register')
 def register():
-    return render_template('cadastro.html')
+    if request.method == "POST":
+        email = request.form['email']
+        senha = request.form['senha']
 
+        conexao = obter_conexao()
+        ja_existe = conexao.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
+
+        if ja_existe:
+            flash("Usuário já cadastrado!", category='error')
+        else:
+            conexao.execute("INSERT INTO users(email, senha) VALUES (?, ?)", (email, senha))
+            conexao.commit()
+            flash("Cadastro realizado com sucesso!", category='success')
+
+        conexao.close()
+        return redirect(url_for('login'))
+
+    return render_template('cadastro.html')
 
 @app.route('/login')
 def login():
