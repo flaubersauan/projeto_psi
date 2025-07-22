@@ -39,7 +39,26 @@ def register():
 
 @app.route('/login')
 def login():
+    if request.method == "POST":
+        email = request.form['email']
+        senha = request.form['senha']
+
+        conexao = obter_conexao()
+        sql = "SELECT * FROM users WHERE email = ?"
+        resultado = conexao.execute(sql, (email,) ).fetchone()
+        conexao.close()
+
+        if resultado and resultado['senha'] == senha:
+            user = User(nome=email, senha=senha)
+            user.id = email
+            login_user(user)
+            flash('Login realizado com sucesso!', category='success')
+            return redirect(url_for('dash'))
+        else:
+            flash('Email ou senha inválidos.', category='error')
+
     return render_template('login.html')
+
 
 @login_required
 @app.route('/dashboard')
@@ -51,5 +70,3 @@ def dash():
 def logout():
     logout_user()
     return render_template('index.html')
-
-# Sauan guaxinim
