@@ -35,7 +35,7 @@ class User(UserMixin):
     def find_email(cls, email):
         conexao = obter_conexao()
         sql = "SELECT email FROM users WHERE email LIKE ?"
-        resultado = conexao.execute(sql, ('%' + email + '%',)).fetchall()
+        resultado = conexao.execute(sql, (email)).fetchall()
         conexao.close()
 
         lista_emails = []
