@@ -9,4 +9,3 @@ with open(BANCO) as f:
     conexao.executescript(f.read())
     
 conexao.close()
-

@@ -5,7 +5,7 @@ from flask_login import LoginManager, login_required
 from flask_login import login_user, logout_user, current_user
 from flask import session, redirect
 
-from models import User
+from modelos import User
 
 import sqlite3
 from database import obter_conexao
@@ -69,7 +69,7 @@ def login():
 @app.route('/dash')
 @login_required
 def dash():
-    return render_template('dashboard.html', lista_usuarios=User.all())
+    return render_template('dash.html', lista_usuarios=User.all())
 
 @app.route('/buscar', methods=['POST'])
 @login_required
@@ -80,7 +80,7 @@ def buscar():
         return redirect(url_for('dash'))
 
     resultados = User.find_email(termo)
-    return render_template('dashboard.html', lista_usuarios=resultados)
+    return render_template('dash.html', lista_usuarios=resultados)
 
 @app.route('/logout', methods=['POST'])
 @login_required

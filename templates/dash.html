@@ -1,5 +1,39 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Projeto PSI
+    Dashboard
+{% endblock %}
+
+{% block pagina %}
+    Dashboard
+{% endblock %}
+
+
+{% block conteudo %}
+    
+    <h1>Oi, {{current_user.nome}}</h1>
+
+    <form action="{{url_for('logout')}}" method="POST">
+        <button>Sair</button>
+    </form>
+
+    <form action="{{url_for('buscar')}}" method="POST">
+        <input type="text" name="termo" placeholder="Buscar por e-mail">
+        <button type="submit">Buscar</button>
+    </form>
+
+    {% for nome in lista_usuarios %}
+    <ul>
+        {% if nome != current_user.nome %}
+        <li>
+            <span>{{nome}}</span>
+            <form action="{{url_for('delete')}}" method="post">
+                <input type="hidden" name="user" value="{{nome}}">
+                <button>Deletar</button>
+            </form>
+        </li>
+        {% endif %}
+    </ul>      
+    {% endfor %}
+    
 {% endblock %}
