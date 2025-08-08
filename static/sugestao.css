@@ -10,7 +10,7 @@ body {
     display: flex;
     font-family: 'Poppins', sans-serif;
     background-color: #F5F3FF;
-    color: #333333;
+    color: #333;
     padding: 20px;
     height: 100vh;
     flex-direction: column;
@@ -26,6 +26,143 @@ header {
     justify-content: space-between;
 }
 
-h1 {
-    color: rgb(221, 207, 126);
+
+
+.links a{
+    font-size: 18px;
+    color:#F2E863;
+    text-decoration: none;
+    padding: 20px;
 }
+.links a:hover{
+    background-color: #C69AC6;
+    color: white;
+    border-radius: 40px;
+    transition: 0.5s;
+}
+.links{
+    display: flex;
+    gap: 40px;
+}
+.logo-container {
+    width: auto;
+}
+
+.logo_gerenciador {
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+    text-decoration: none;
+}
+
+.checkmark-container {
+    width: 40px;
+    height: 40px;
+    background-color: black;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.checkmark {
+    width: 20px;
+    height: 10px;
+    border: 3px solid #F2E863;
+    border-top: none;
+    border-right: none;
+    transform: rotate(-45deg);
+    position: absolute;
+}
+
+.text_logo{
+    font-size: 30px;
+    font-weight: bold;
+    color:#F2E863;
+}
+
+h1 {
+    color: #F2E863;
+}
+
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+.plano {
+    position: relative;
+    background-color: #fff;
+    border-left: 10px solid #663c66;
+    border-radius: 20px;
+    padding: 20px 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+    width: 30%;
+    min-width: 300px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
+}
+
+.plano:hover {
+    transform: scale(1.01);
+}
+
+
+.plano::after {
+    content: "Deseja adquirir essa rotina?";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(102, 60, 102, 0.9); 
+    color: #F2E863;
+    font-weight: bold;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    text-align: center;
+    padding: 20px;
+}
+
+.plano:hover::after {
+    opacity: 1;
+}
+
+.plano h2 {
+    color: #663c66;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.plano ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.plano-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.plano-item img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+
