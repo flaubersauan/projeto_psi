@@ -66,6 +66,10 @@ def login():
 
     return render_template('login.html')
 
+@app.route('/sugestao',methods=['GET', 'POST'])
+def sugerir():
+    return render_template('sugestao.html')
+
 @app.route('/dash')
 @login_required
 def dash():
