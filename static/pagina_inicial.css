@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    font-family: 'Poppins', sans-serif;
+    background-color: #F5F3FF;
+    color: #333;
+    padding: 20px;
+    height: 100vh;
+    flex-direction: column;
+
+}
+
+header {
+    display: flex;
+    background-color: #663c66;
+    padding: 30px;
+    border-radius: 30px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.links a{
+    font-size: 18px;
+    color:#F2E863;
+    text-decoration: none;
+    padding: 20px;
+}
+.links a:hover{
+    background-color: #C69AC6;
+    color: white;
+    border-radius: 40px;
+    transition: 0.5s;
+}
+.links{
+    display: flex;
+    gap: 40px;
+}
+.logo-container {
+    width: auto;
+}
+
+.logo_gerenciador {
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+    text-decoration: none;
+}
+
+.checkmark-container {
+    width: 40px;
+    height: 40px;
+    background-color: black;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.checkmark {
+    width: 20px;
+    height: 10px;
+    border: 3px solid #F2E863;
+    border-top: none;
+    border-right: none;
+    transform: rotate(-45deg);
+    position: absolute;
+}
+
+.text_logo{
+    font-size: 30px;
+    font-weight: bold;
+    color:#F2E863;
+}
+
+nav a {
+    color: #ecf0f1;
+    margin-right: 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+main {
+    display: flex;
+    border-radius: 12px;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    flex: 1;
+    width: 100%;
+}
+.text_container{
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+    text-align: justify;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.text_container h1 {
+    font-size: clamp(24px, 5vw, 40px);
+}
+.text_container p{
+    font-size: clamp(12px, 5vw, 25px);
+}
+

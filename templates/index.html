@@ -1,11 +1,37 @@
-{% extends 'base.html' %}
 
-{% block title %}
-Página inicial   
-{% endblock %}
-
-{% block conteudo %}
-    <div class="text_container"> <h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+            formularios
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" href="{{url_for('static', filename='pagina_inicial.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+            <div class="logo-container">
+            <div class="logo_gerenciador">
+                <div class="checkmark-container">
+                    <div class="checkmark"></div>
+                </div>
+                <span class="text_logo">Gerenciador de estudos</span>
+            </div>
+            </div>
+            
+            <div class="links">
+                <a href="{{url_for('register')}}">Cadastre-se</a>
+                <a href="{{url_for('login')}}">Login</a>
+            </div>
+            
+    </header>
+    
+    <main>
+        <div class="text_container"> <h1>
                 Por que utilizar um gerenciador de estudos?
             </h1>
             <p>
@@ -17,5 +43,11 @@ Página inicial
                 e melhorar o desempenho, tornando os estudos mais produtivos e menos estressantes.
             </p>
             </div>
-{% endblock %}
+    </main>
 
+    <footer>
+        
+    
+    </footer>
+</body>
+</html>
