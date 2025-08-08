@@ -7,14 +7,13 @@
 }
 
 body {
-    display: flex;
     font-family: 'Poppins', sans-serif;
-    background-color: #F5F3FF;
+    background-color: #a17db9; /* Cor de fundo mais suave */
     color: #333;
     padding: 20px;
-    height: 100vh;
+    min-height: 100vh;
+    display: flex;
     flex-direction: column;
-
 }
 
 header {
@@ -86,7 +85,11 @@ header {
     background-color: #fff;
     padding: 30px;
     border-radius: 30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    
+    max-width: 900px;
+    width: 95%;
+    margin: 80px auto;
 }
 
 h1 {
@@ -112,8 +115,7 @@ input[type="text"] {
     outline: none;
     flex-grow: 1;
     max-width: 300px;
-} 
-
+}
 input[type="text"]:focus {
     border-color: #C69AC6;
     box-shadow: 0 0 5px rgba(198, 154, 198, 0.5);
@@ -133,7 +135,6 @@ button[type="submit"] {
     background-color: #C69AC6;
     color: white;
 }
-
 button[type="submit"]:hover {
     background-color: #663c66;
 }
@@ -143,7 +144,6 @@ form[action*="logout"] button {
     color: #663c66;
     font-weight: 600;
 }
-
 form[action*="logout"] button:hover {
     background-color: #e5d45d;
 }
@@ -157,7 +157,7 @@ ul li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #8f708f;
+    background-color: #f9f9f9;
     padding: 15px 20px;
     border-radius: 15px;
     margin-bottom: 10px;
@@ -179,3 +179,5 @@ form[action*="delete"] button {
 form[action*="delete"] button:hover {
     background-color: #e65c5c;
 }
+}
+
