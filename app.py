@@ -98,3 +98,5 @@ def delete():
     else:
         flash("Você não pode deletar a si mesmo!", category='error')
     return redirect(url_for('dash'))
+
+
