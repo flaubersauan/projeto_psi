@@ -14,11 +14,21 @@
 <body>
     <header>
         {% block cabeçalho %}
-        <h1>Gerenciador de Estudos</h1> 
-        <nav>
-            <a href="{{url_for ('register')}}">Registre-se</a>
-            <a href="{{url_for ('login')}}">Login</a>
-        </nav>
+
+        <div class="logo-container">
+            <div class="logo_gerenciador">
+                <div class="checkmark-container">
+                    <div class="checkmark"></div>
+                </div>
+                <span class="text_logo">Gerenciador de estudos</span>
+            </div>
+        </div>
+            
+            <div class="links">
+                <a href="{{url_for('sugerir')}}">Sugestões</a>
+                <a href="{{url_for('login')}}">Login</a>
+            </div>
+            
         {% endblock %}
     </header>
     

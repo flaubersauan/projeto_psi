@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+            formularios
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" href="{{url_for('static', filename='sugestao.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>Não sabe por onde começar? <br> Aqui algumas ideias de rotinas</h1>
+    </header>
+    <main>
+
+        <div class="plano">
+            <h2><img src="https://cdn-icons-png.flaticon.com/512/3595/3595455.png" width="24"> Rotina Produtiva</h2>
+            <ul>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/3595/3595455.png">08:00 - Acordar e tomar café da manhã</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/29/29302.png">09:00 - Estudo ou trabalho focado</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png">12:30 - Almoço e descanso</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/29/29302.png">14:00 - Atividades práticas ou projetos</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png">18:00 - Exercícios físicos</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png">20:00 - Jantar e tempo livre</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/869/869869.png">22:30 - Preparar para dormir</li>
+            </ul>
+        </div>
+    
+
+        <div class="plano">
+            <h2><img src="https://cdn-icons-png.flaticon.com/512/1995/1995574.png" width="24"> Rotina Equilibrada</h2>
+            <ul>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/1995/1995574.png">07:30 - Meditação e alongamento</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png">08:00 - Café da manhã saudável</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/29/29302.png">09:00 - Tarefas importantes ou estudo</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/846/846449.png">12:00 - Caminhada leve e almoço</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/29/29302.png">14:00 - Leitura ou curso online</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png">17:00 - Tempo com amigos ou família</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/869/869869.png">21:30 - Desconexão e relaxamento</li>
+            </ul>
+        </div>
+    
+
+        <div class="plano">
+            <h2><img src="https://cdn-icons-png.flaticon.com/512/1904/1904425.png" width="24"> Rotina Focada em Objetivos</h2>
+            <ul>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/3595/3595455.png">06:30 - Acordar e planejar o dia</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png">07:00 - Exercício físico intenso</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png">08:00 - Café e revisão de metas</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/29/29302.png">09:00 - Trabalho profundo (deep work)</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png">13:00 - Pausa e almoço</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/2892/2892156.png">15:00 - Revisão de progresso diário</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/686/686589.png">18:00 - Relaxar e estudar um novo tema</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/869/869869.png">22:00 - Dormir</li>
+            </ul>
+        </div>
+
+
+        <div class="plano">
+            <h2><img src="https://cdn-icons-png.flaticon.com/512/1041/1041916.png" width="24"> Estudo Intensivo</h2>
+            <ul>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/3595/3595455.png">06:00 - Acordar e café</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/29/29302.png">07:00 - Sessão de estudos 1</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/846/846449.png">10:00 - Pausa ativa</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/29/29302.png">10:30 - Sessão de estudos 2</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png">13:00 - Almoço e descanso</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/29/29302.png">15:00 - Sessão de revisão</li>
+            </ul>
+        </div>
+    
+
+        <div class="plano">
+            <h2><img src="https://cdn-icons-png.flaticon.com/512/4321/4321742.png" width="24"> Estudo Leve</h2>
+            <ul>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/3595/3595455.png">08:30 - Acordar e tomar café</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/29/29302.png">09:30 - Leitura leve</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/727/727245.png">11:00 - Vídeo aula</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png">12:30 - Almoço</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/29/29302.png">15:00 - Resolução de exercícios</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/869/869869.png">20:00 - Descanso</li>
+            </ul>
+        </div>
+    
+
+        <div class="plano">
+            <h2><img src="https://cdn-icons-png.flaticon.com/512/168/168766.png" width="24"> Rotina Esportiva</h2>
+            <ul>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/846/846449.png">06:00 - Corrida matinal</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png">07:30 - Café da manhã</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/1995/1995574.png">10:00 - Alongamento e mobilidade</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png">13:00 - Treino de força</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png">16:00 - Lanche saudável</li>
+                <li class="plano-item"><img src="https://cdn-icons-png.flaticon.com/512/869/869869.png">21:30 - Dormir cedo</li>
+            </ul>
+        </div>
+    </main>
+    
+</body>
+</html>
