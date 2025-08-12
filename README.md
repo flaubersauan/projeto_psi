@@ -1,2 +1,3 @@
-# projeto_psi
-Projeto desenvolvido em flask 
+Projeto desenvolvido em flask para a disciplina de PSI (Programação de Sistemas para Internet)
+
+

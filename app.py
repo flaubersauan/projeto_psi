@@ -5,14 +5,18 @@ from flask_login import LoginManager, login_required
 from flask_login import login_user, logout_user, current_user
 from flask import session, redirect
 
-from modelos import User
+from models import User
 
 import sqlite3
 from database import obter_conexao
+from models import db
 
 login_manager = LoginManager() 
 app = Flask(__name__)
-app.secret_key = 'guilherme'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///seu_banco.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = 'caladoSEUinUTIL'
+db.init_app(app)
 login_manager.init_app(app)
 
 @login_manager.user_loader
@@ -75,17 +79,6 @@ def sugerir():
 def dash():
     return render_template('dash.html', lista_usuarios=User.all())
 
-@app.route('/buscar', methods=['POST'])
-@login_required
-def buscar():
-    termo = request.form.get('termo')
-    if not termo:
-        flash("Digite um e-mail para buscar.", category='error')
-        return redirect(url_for('dash'))
-
-    resultados = User.find_email(termo)
-    return render_template('dash.html', lista_usuarios=resultados)
-
 @app.route('/logout', methods=['POST'])
 @login_required
 def logout():
@@ -93,12 +86,8 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/delete', methods=['POST'])
-def delete():
-    email = request.form['user']
-    if email != current_user.nome: 
-        User.delete(email)
-        flash(f"Usuário {email} deletado com sucesso.", category='success')
-    else:
-        flash("Você não pode deletar a si mesmo!", category='error')
-    return redirect(url_for('dash'))
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True)

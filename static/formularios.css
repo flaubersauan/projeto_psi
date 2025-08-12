@@ -91,6 +91,7 @@ form .email input {
     width: 100%;
     font-family: 'poppins';
     background-color: #C69AC6;
+    color: white;
 }
 form .email input:focus {
     background-color: #663C66;
@@ -110,6 +111,7 @@ form .senha input {
     width: 100%;
     font-family: 'poppins';
     background-color: #C69AC6;
+    color: white;
 }
 form .senha input:focus {
     background-color: #663C66;
