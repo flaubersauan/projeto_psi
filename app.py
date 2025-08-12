@@ -5,6 +5,7 @@ from flask_login import LoginManager, login_required
 from flask_login import login_user, logout_user, current_user
 from flask import session, redirect
 
+from werkzeug.security import check_password_hash, generate_password_hash
 from models import User
 
 import sqlite3
@@ -39,7 +40,8 @@ def register():
         if ja_existe:
             flash("Usuário já cadastrado!", category='error')
         else:
-            conexao.execute("INSERT INTO users(email, senha) VALUES (?, ?)", (email, senha))
+            senha_hash = generate_password_hash(senha)
+            conexao.execute("INSERT INTO users(email, senha) VALUES (?, ?)", (email, senha_hash))
             conexao.commit()
             flash("Cadastro realizado com sucesso!", category='success')
 
@@ -59,7 +61,7 @@ def login():
         resultado = conexao.execute(sql, (email,) ).fetchone()
         conexao.close()
 
-        if resultado and resultado['senha'] == senha:
+        if resultado and check_password_hash(resultado['senha'], senha):
             user = User(nome=email, senha=senha)
             user.id = email
             login_user(user)
