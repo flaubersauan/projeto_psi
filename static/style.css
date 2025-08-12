@@ -8,7 +8,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #a17db9; /* Cor de fundo mais suave */
+    background-color: #F5F3FF;
     color: #333;
     padding: 20px;
     min-height: 100vh;
@@ -170,14 +170,5 @@ ul li span {
     color: #444;
 }
 
-form[action*="delete"] button {
-    background-color: #ff6b6b;
-    color: white;
-    font-weight: 500;
-    padding: 8px 16px;
-}
-form[action*="delete"] button:hover {
-    background-color: #e65c5c;
-}
-}
+
 
