@@ -1,24 +1,18 @@
-from flask import Flask, render_template
-from flask import url_for, request, flash
+from flask import Flask, render_template, request, flash, redirect, url_for
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+from models import db, User
 
-from flask_login import LoginManager, login_required
-from flask_login import login_user, logout_user, current_user
-from flask import session, redirect
-
-from werkzeug.security import check_password_hash, generate_password_hash
-from models import User
-
-import sqlite3
-from database import obter_conexao
-from models import db
-
-login_manager = LoginManager() 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///seu_banco.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'caladoSEUinUTIL'
+
 db.init_app(app)
+
+login_manager = LoginManager()
 login_manager.init_app(app)
+login_manager.login_view = 'login'  # redireciona para login se não estiver autenticado
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -34,19 +28,15 @@ def register():
         email = request.form['email']
         senha = request.form['senha']
 
-        conexao = obter_conexao()
-        ja_existe = conexao.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
-
-        if ja_existe:
+        if User.query.filter_by(email=email).first():
             flash("Usuário já cadastrado!", category='error')
         else:
             senha_hash = generate_password_hash(senha)
-            conexao.execute("INSERT INTO users(email, senha) VALUES (?, ?)", (email, senha_hash))
-            conexao.commit()
+            novo_user = User(email=email, senha=senha_hash)
+            db.session.add(novo_user)
+            db.session.commit()
             flash("Cadastro realizado com sucesso!", category='success')
-
-        conexao.close()
-        return redirect(url_for('login'))
+            return redirect(url_for('login'))
 
     return render_template('register.html')
 
@@ -56,14 +46,8 @@ def login():
         email = request.form['email']
         senha = request.form['senha']
 
-        conexao = obter_conexao()
-        sql = "SELECT * FROM users WHERE email = ?"
-        resultado = conexao.execute(sql, (email,) ).fetchone()
-        conexao.close()
-
-        if resultado and check_password_hash(resultado['senha'], senha):
-            user = User(nome=email, senha=senha)
-            user.id = email
+        user = User.query.filter_by(email=email).first()
+        if user and check_password_hash(user.senha, senha):
             login_user(user)
             flash('Login realizado com sucesso!', category='success')
             return redirect(url_for('dash'))
@@ -72,24 +56,55 @@ def login():
 
     return render_template('login.html')
 
-@app.route('/sugestao',methods=['GET', 'POST'])
-def sugerir():
-    return render_template('sugestao.html')
-
 @app.route('/dash')
 @login_required
 def dash():
-    return render_template('dash.html', lista_usuarios=User.all())
+    usuarios = User.all()
+    return render_template('dash.html', lista_usuarios=usuarios)
 
-@app.route('/logout', methods=['POST'])
+@app.route('/buscar', methods=['POST'])
+@login_required
+def buscar():
+    termo = request.form.get('termo', '')
+    if termo:
+        usuarios_filtrados = User.query.filter(User.email.contains(termo)).all()
+    else:
+        usuarios_filtrados = User.all()
+    return render_template('dash.html', lista_usuarios=usuarios_filtrados)
+
+@app.route('/delete', methods=['POST'])
+@login_required
+def delete():
+    email_usuario = request.form.get('user_email')
+    if email_usuario:
+        usuario = User.query.filter_by(email=email_usuario).first()
+        if usuario:
+            if usuario.id == current_user.id:
+                flash("Você não pode deletar seu próprio usuário!", category='error')
+            else:
+                db.session.delete(usuario)
+                db.session.commit()
+                flash(f"Usuário {email_usuario} deletado com sucesso!", category='success')
+        else:
+            flash("Usuário não encontrado!", category='error')
+    else:
+        flash("Email do usuário não informado.", category='error')
+
+    return redirect(url_for('dash'))
+
+@app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
-
+@app.route('/sugerir')
+@login_required
+def sugerir():
+    return render_template('sugestao.html')
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()
+        db.create_all()  # Cria as tabelas se não existirem
     app.run(debug=True)
+
