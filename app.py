@@ -106,6 +106,8 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+
+
 <<<<<<< Updated upstream
 @app.route('/sugerir')
 @login_required
