@@ -136,6 +136,42 @@ form button:hover {
     transition: 0.5s;
 }
 
+form .email input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    height: 60px;
+    font-size: 18px;
+    width: 100%;
+    font-family: 'poppins';
+    background-color: #C69AC6;
+    color: white;
+}
+form .email input:focus {
+    background-color: #663C66;
+}
+
+form .senha label {
+    font-weight: bold;
+
+}
+
+form .senha input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    height: 60px;
+    font-size: 18px;
+    width: 100%;
+    font-family: 'poppins';
+    background-color: #C69AC6;
+    color: white;
+}
+form .senha input:focus {
+    background-color: #663C66;
+}
+
+
 
 form h1{
     color:  black;

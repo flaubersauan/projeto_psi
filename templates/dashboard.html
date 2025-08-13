@@ -14,12 +14,11 @@
     <div class="main-content">
         <h1>Oi, {{current_user.nome}}</h1>
 
-        <form action="{{url_for('buscar')}}" method="POST">
+        <form action="{{url_for('buscar')}}" method="post">
             <input type="text" name="termo" placeholder="Buscar por e-mail">
             <button type="submit">Buscar</button>
         </form>
 
-        <ul>
 
     {% for nome in lista_usuarios %}
     <ul>
@@ -34,6 +33,10 @@
             {% endif %}
         {% endfor %}
         </ul>
+        <form action="{{url_for('cadastrar_atividade')}}" method="post">
+        <button type="submit">Cadastrar atividade</button>
+        </form>
     </div>  
     
+     
 {% endblock %}

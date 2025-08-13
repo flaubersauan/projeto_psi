@@ -1,0 +1,18 @@
+{% extends 'base_formularios.html' %}
+
+{% block title %}
+    formularios
+{% endblock %}
+
+{% block conteudo %}
+    <form action="{{url_for('cadastrar_atividade')}}" method="POST">
+        <h1>Cadastro</h1>
+                <label for="nome_atividade">Nome atividade: </label>
+                <input type="text" name="nome_atividade" placeholder="Nome Atividade">
+                <label for="descricao_atividade">Descrição atividade: </label>
+                <input type="text" name="descricao_atividade" placeholder="Descrição Atividade">
+                <label for="data_atividade">Data da atividade:</label>
+                <input type="date" name="data_atividade" placeholder="Data Atividade">
+            <button type="submit">Enviar</button>
+    </form>
+{% endblock %}

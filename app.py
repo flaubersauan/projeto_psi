@@ -30,16 +30,14 @@ def register():
 
         conexao = obter_conexao()
         ja_existe = conexao.execute(
-            "SELECT * FROM users WHERE email = ?", (email,)
-        ).fetchone()
+            "SELECT * FROM users WHERE email = ?", (email,)).fetchone()
 
         if ja_existe:
             flash("Usuário já cadastrado!", category='error')
         else:
             senha_hash = generate_password_hash(senha)
             conexao.execute(
-                "INSERT INTO users(email, senha) VALUES (?, ?)", (email, senha_hash)
-            )
+                "INSERT INTO users(email, senha) VALUES (?, ?)", (email, senha_hash))
             conexao.commit()
             flash("Cadastro realizado com sucesso!", category='success')
 
@@ -81,6 +79,8 @@ def dash():
     return render_template('dashboard.html', lista_usuarios=User.all())
 
 
+
+
 @app.route('/buscar', methods=['POST'])
 @login_required
 def buscar():
@@ -91,6 +91,12 @@ def buscar():
 
     resultados = User.find_email(termo)
     return render_template('dashboard.html', lista_usuarios=resultados)
+
+@app.route('/adicionar_atividade', methods=['POST'])
+@login_required
+def cadastrar_atividade():
+    return render_template('cadastrar_atividade.html')
+
 
 
 @app.route('/logout')
