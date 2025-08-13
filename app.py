@@ -8,11 +8,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///seu_banco.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'caladoSEUinUTIL'
 
+# Inicializa o banco
 db.init_app(app)
 
+# Configuração do Login
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login'  # redireciona para login se não estiver autenticado
+login_manager.login_view = 'login'
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -62,7 +64,7 @@ def dash():
     usuarios = User.all()
     return render_template('dash.html', lista_usuarios=usuarios)
 
-@app.route('/buscar', methods=['POST'])
+@app.route('/buscar', methods=['GET','POST'])
 @login_required
 def buscar():
     termo = request.form.get('termo', '')
@@ -105,6 +107,7 @@ def sugerir():
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  # Cria as tabelas se não existirem
+        db.create_all()
     app.run(debug=True)
+
 
