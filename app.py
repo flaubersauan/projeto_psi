@@ -1,9 +1,22 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
-from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from werkzeug.security import generate_password_hash, check_password_hash
-from models import db, User
+from flask import Flask, render_template
+from flask import url_for, request, flash
 
+from flask_login import LoginManager, login_required
+from flask_login import login_user, logout_user, current_user
+from flask import session, redirect
+
+from models import User
+
+import sqlite3
+
+def obter_conexao():
+    conexao = sqlite3.connect('banco.db')
+    conexao.close()
+    return conexao
+
+login_manager = LoginManager() 
 app = Flask(__name__)
+<<<<<<< Updated upstream
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///seu_banco.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'caladoSEUinUTIL'
@@ -15,6 +28,10 @@ db.init_app(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+=======
+app.secret_key = 'guilherme'
+login_manager.init_app(app)
+>>>>>>> Stashed changes
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -30,15 +47,18 @@ def register():
         email = request.form['email']
         senha = request.form['senha']
 
-        if User.query.filter_by(email=email).first():
+        conexao = obter_conexao()
+        ja_existe = conexao.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
+
+        if ja_existe:
             flash("Usuário já cadastrado!", category='error')
         else:
-            senha_hash = generate_password_hash(senha)
-            novo_user = User(email=email, senha=senha_hash)
-            db.session.add(novo_user)
-            db.session.commit()
+            conexao.execute("INSERT INTO users(email, senha) VALUES (?, ?)", (email, senha))
+            conexao.commit()
             flash("Cadastro realizado com sucesso!", category='success')
-            return redirect(url_for('login'))
+
+        conexao.close()
+        return redirect(url_for('login'))
 
     return render_template('register.html')
 
@@ -48,8 +68,14 @@ def login():
         email = request.form['email']
         senha = request.form['senha']
 
-        user = User.query.filter_by(email=email).first()
-        if user and check_password_hash(user.senha, senha):
+        conexao = obter_conexao()
+        sql = "SELECT * FROM users WHERE email = ?"
+        resultado = conexao.execute(sql, (email,) ).fetchone()
+        conexao.close()
+
+        if resultado and resultado['senha'] == senha:
+            user = User(nome=email, senha=senha)
+            user.id = email
             login_user(user)
             flash('Login realizado com sucesso!', category='success')
             return redirect(url_for('dash'))
@@ -61,45 +87,26 @@ def login():
 @app.route('/dash')
 @login_required
 def dash():
-    usuarios = User.all()
-    return render_template('dash.html', lista_usuarios=usuarios)
+    return render_template('dashboard.html', lista_usuarios=User.all())
 
 @app.route('/buscar', methods=['GET','POST'])
 @login_required
 def buscar():
-    termo = request.form.get('termo', '')
-    if termo:
-        usuarios_filtrados = User.query.filter(User.email.contains(termo)).all()
-    else:
-        usuarios_filtrados = User.all()
-    return render_template('dash.html', lista_usuarios=usuarios_filtrados)
+    termo = request.form.get('termo')
+    if not termo:
+        flash("Digite um e-mail para buscar.", category='error')
+        return redirect(url_for('dash'))
 
-@app.route('/delete', methods=['POST'])
-@login_required
-def delete():
-    email_usuario = request.form.get('user_email')
-    if email_usuario:
-        usuario = User.query.filter_by(email=email_usuario).first()
-        if usuario:
-            if usuario.id == current_user.id:
-                flash("Você não pode deletar seu próprio usuário!", category='error')
-            else:
-                db.session.delete(usuario)
-                db.session.commit()
-                flash(f"Usuário {email_usuario} deletado com sucesso!", category='success')
-        else:
-            flash("Usuário não encontrado!", category='error')
-    else:
-        flash("Email do usuário não informado.", category='error')
+    resultados = User.find_email(termo)
+    return render_template('dashboard.html', lista_usuarios=resultados)
 
-    return redirect(url_for('dash'))
-
-@app.route('/logout')
+@app.route('/logout', methods=['POST'])
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
+<<<<<<< Updated upstream
 @app.route('/sugerir')
 @login_required
 def sugerir():
@@ -111,3 +118,15 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
+=======
+
+@app.route('/delete', methods=['POST'])
+def delete():
+    email = request.form['user']
+    if email != current_user.nome: 
+        User.delete(email)
+        flash(f"Usuário {email} deletado com sucesso.", category='success')
+    else:
+        flash("Você não pode deletar a si mesmo!", category='error')
+    return redirect(url_for('dash'))
+>>>>>>> Stashed changes
