@@ -1,18 +1,25 @@
-<h1>Cadastrar Atividade</h1>
+{% extends 'base.html' %}
 
-<form method="POST">
-    <label>Nome:</label>
-    <input type="text" name="nome" required>
+{% block conteudo %}
 
-    <label>Descrição:</label>
-    <textarea name="descricao"></textarea>
 
-    <button type="submit">Cadastrar</button>
-</form>
+<div class="main-content_atividade">
+        <h1>Cadastrar Atividade</h1>
+ <form action="{{url_for('cadastrar_atividade')}}" method="POST" class="atividade_form">
 
-<hr>
+            <div class="nome_atividade">
+                <input type="text" name="nome" placeholder="Nome da atividade">
+            </div>
+            <div class="descricao_atividade">
+                <textarea name="descricao" placeholder="Descrição" rows="6"></textarea>
+            </div>
+            <button type="submit">Enviar</button>
+    </form>
 
-<h2>Atividades Cadastradas</h2>
+</div>  
+
+
+<h1>Atividades Cadastradas</h1>
 {% if atividades %}
     <ul>
     {% for atv in atividades %}
@@ -28,3 +35,4 @@
 {% else %}
     <p>Nenhuma atividade cadastrada.</p>
 {% endif %}
+{% endblock %}  

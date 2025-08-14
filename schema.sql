@@ -2,10 +2,12 @@ CREATE TABLE IF NOT EXISTS users(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     email TEXT NOT NULL,
     senha TEXT NOT NULL
-)
+);
 
 CREATE TABLE IF NOT EXISTS atividades (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
-    descricao TEXT
+    descricao TEXT,
+    user_id INTEGER,
+    FOREIGN KEY (user_id) REFERENCES users (id)
 );

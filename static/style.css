@@ -23,8 +23,15 @@ header {
     border-radius: 30px;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 40px;
 }
 
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
 
 .links a{
     font-size: 18px;
@@ -81,20 +88,33 @@ header {
 }
 
 .main-content {
-    flex-grow: 1;
+    display: flex;
     background-color: #fff;
     padding: 30px;
     border-radius: 30px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    
     max-width: 900px;
-    width: 95%;
     margin: 80px auto;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.main-content_atividade{
+    display: flex;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    max-width: 900px;
+    margin: 80px auto;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 h1 {
     font-family: 'Kodchasan', sans-serif;
-    color: #663c66;
     margin-bottom: 20px;
     font-weight: 600;
 }
@@ -104,6 +124,20 @@ form {
     align-items: center;
     gap: 10px;
     margin-bottom: 20px;
+    max-width: 900px;
+    padding: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.atividade_form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 40px;
+    padding: 50px;
+    align-items: start;
 }
 
 input[type="text"] {
@@ -114,7 +148,7 @@ input[type="text"] {
     font-size: 16px;
     outline: none;
     flex-grow: 1;
-    max-width: 300px;
+    max-width: 200px;
 }
 input[type="text"]:focus {
     border-color: #C69AC6;
@@ -149,18 +183,19 @@ form[action*="logout"] button:hover {
 }
 
 ul {
+    display: flex;
     list-style: none;
     padding: 0;
+    gap: 10px;
+    flex-direction: column;
 }
 
 ul li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #f9f9f9;
-    padding: 15px 20px;
+    padding: 10px;
     border-radius: 15px;
-    margin-bottom: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
@@ -171,3 +206,14 @@ ul li span {
 }
 
 
+textarea{
+    border-radius: 10px;
+    padding: 20px;
+    flex-grow: 1;
+    max-width: 300px;
+}
+.descricao_atividade{
+    border-radius: 10px;
+    flex-grow: 1;
+    width: 300px;
+}
