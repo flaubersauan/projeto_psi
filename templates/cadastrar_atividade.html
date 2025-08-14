@@ -1,0 +1,30 @@
+<h1>Cadastrar Atividade</h1>
+
+<form method="POST">
+    <label>Nome:</label>
+    <input type="text" name="nome" required>
+
+    <label>Descrição:</label>
+    <textarea name="descricao"></textarea>
+
+    <button type="submit">Cadastrar</button>
+</form>
+
+<hr>
+
+<h2>Atividades Cadastradas</h2>
+{% if atividades %}
+    <ul>
+    {% for atv in atividades %}
+        <li>
+            <strong>{{ atv['nome'] }}</strong> - {{ atv['descricao'] }}
+            <form method="POST" action="{{ url_for('delete_atividade') }}" style="display:inline;">
+                <input type="hidden" name="atividade_id" value="{{ atv['id'] }}">
+                <button type="submit">Excluir</button>
+            </form>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Nenhuma atividade cadastrada.</p>
+{% endif %}
