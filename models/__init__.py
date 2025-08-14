@@ -64,4 +64,3 @@ class User(UserMixin):
 
 
         conexao.close()
-
