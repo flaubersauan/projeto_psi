@@ -78,9 +78,6 @@ def sugerir():
 def dash():
     return render_template('dashboard.html', lista_usuarios=User.all())
 
-
-
-
 @app.route('/buscar', methods=['POST'])
 @login_required
 def buscar():
@@ -92,11 +89,50 @@ def buscar():
     resultados = User.find_email(termo)
     return render_template('dashboard.html', lista_usuarios=resultados)
 
-@app.route('/adicionar_atividade', methods=['POST'])
+@app.route('/adicionar_atividade', methods=['GET', 'POST'])
 @login_required
 def cadastrar_atividade():
-    return render_template('cadastrar_atividade.html')
+    conexao = obter_conexao()
 
+    conexao.execute("""
+        CREATE TABLE IF NOT EXISTS atividades (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT NOT NULL,
+            descricao TEXT
+        )
+    """)
+    conexao.commit()
+
+    if request.method == "POST":
+        nome_atividade = request.form.get('nome')
+        descricao = request.form.get('descricao')
+
+        if not nome_atividade:
+            flash("O nome da atividade é obrigatório.", category='error')
+        else:
+            conexao.execute(
+                "INSERT INTO atividades (nome, descricao) VALUES (?, ?)",
+                (nome_atividade, descricao)
+            )
+            conexao.commit()
+            flash("Atividade cadastrada com sucesso!", category='success')
+
+    atividades = conexao.execute("SELECT * FROM atividades").fetchall()
+    conexao.close()
+
+    return render_template('cadastrar_atividade.html', atividades=atividades)
+
+
+@app.route('/delete_atividade', methods=['POST'])
+@login_required
+def delete_atividade():
+    id_atividade = request.form.get('atividade_id')
+    conexao = obter_conexao()
+    conexao.execute("DELETE FROM atividades WHERE id = ?", (id_atividade,))
+    conexao.commit()
+    conexao.close()
+    flash("Atividade removida com sucesso!", category='success')
+    return redirect(url_for('cadastrar_atividade'))
 
 
 @app.route('/logout')
@@ -117,6 +153,14 @@ def delete():
         flash("Você não pode deletar a si mesmo!", category='error')
 
     return redirect(url_for('dash'))
+
+@app.errorhandler(404)
+def pagina_nao_encontrada(e):
+    return render_template('componentes/erro.html', codigo=404, mensagem="Página não encontrada"), 404
+
+@app.errorhandler(500)
+def erro_interno(e):
+    return render_template('componentes/erro.html', codigo=500, mensagem="Erro interno do servidor"), 500
 
 
 if __name__ == '__main__':
