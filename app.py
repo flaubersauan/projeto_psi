@@ -1,6 +1,7 @@
-from flask import Flask, render_template, url_for, request, flash, redirect
+from flask import Flask, render_template, url_for, request, flash, session, redirect
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from models import User
+import sqlite3
 from database import obter_conexao
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -13,7 +14,7 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)  
+    return User.get(user_id)
 
 
 @app.route('/')
@@ -29,17 +30,14 @@ def register():
 
         conexao = obter_conexao()
         ja_existe = conexao.execute(
-            "SELECT * FROM users WHERE email = ?", (email,)
-        ).fetchone()
+            "SELECT * FROM users WHERE email = ?", (email,)).fetchone()
 
         if ja_existe:
             flash("Usuário já cadastrado!", category='error')
         else:
             senha_hash = generate_password_hash(senha)
             conexao.execute(
-                "INSERT INTO users(email, senha) VALUES (?, ?)",
-                (email, senha_hash)
-            )
+                "INSERT INTO users(email, senha) VALUES (?, ?)", (email, senha_hash))
             conexao.commit()
             flash("Cadastro realizado com sucesso!", category='success')
 
@@ -56,9 +54,8 @@ def login():
         senha = request.form['senha']
 
         conexao = obter_conexao()
-        resultado = conexao.execute(
-            "SELECT * FROM users WHERE email = ?", (email,)
-        ).fetchone()
+        sql = "SELECT * FROM users WHERE email = ?"
+        resultado = conexao.execute(sql, (email,)).fetchone()
         conexao.close()
 
         if resultado and check_password_hash(resultado['senha'], senha):
@@ -72,12 +69,14 @@ def login():
 
     return render_template('login.html')
 
+@app.route('/sugestao',methods=['GET', 'POST'])
+def sugerir():
+    return render_template('sugestao.html')
 
 @app.route('/dash')
 @login_required
 def dash():
     return render_template('dashboard.html', lista_usuarios=User.all())
-
 
 @app.route('/buscar', methods=['POST'])
 @login_required
@@ -90,13 +89,11 @@ def buscar():
     resultados = User.find_email(termo)
     return render_template('dashboard.html', lista_usuarios=resultados)
 
-
 @app.route('/adicionar_atividade', methods=['GET', 'POST'])
 @login_required
 def cadastrar_atividade():
     conexao = obter_conexao()
 
-    
     conexao.execute("""
         CREATE TABLE IF NOT EXISTS atividades (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -156,8 +153,6 @@ def delete():
         flash("Você não pode deletar a si mesmo!", category='error')
 
     return redirect(url_for('dash'))
-
-
 
 @app.errorhandler(404)
 def pagina_nao_encontrada(e):
