@@ -92,12 +92,30 @@ def buscar():
     resultados = User.find_email(termo)
     return render_template('dashboard.html', lista_usuarios=resultados)
 
-@app.route('/adicionar_atividade', methods=['POST'])
+@app.route('/adicionar_atividade', methods=['GET', 'POST'])
 @login_required
 def cadastrar_atividade():
+    if request.method == "POST":
+        nome_atividade = request.form.get('nome_atividade')
+        descricao_atividade = request.form.get('descricao_atividade')
+        data_atividade = request.form.get('data_atividade')
+
+        if not nome_atividade or not descricao_atividade or not data_atividade:
+            flash("Preencha todos os campos!", category='error')
+            return redirect(url_for('cadastrar_atividade'))
+
+        conexao = obter_conexao()
+        conexao.execute("""
+            INSERT INTO atividades (nome_atividade, descricao_atividade, data_atividade, user_id)
+            VALUES (?, ?, ?, ?)""", (nome_atividade, descricao_atividade, data_atividade, current_user.id))
+        conexao.commit()
+        conexao.close()
+
+        flash("Atividade cadastrada com sucesso!", category='success')
+        return redirect(url_for('dash'))
+
+
     return render_template('cadastrar_atividade.html')
-
-
 
 @app.route('/logout')
 @login_required
