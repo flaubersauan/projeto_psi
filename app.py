@@ -59,9 +59,10 @@ def login():
         conexao.close()
 
         if resultado and check_password_hash(resultado['senha'], senha):
-            user = User(nome=email, senha=senha)
-            user.id = email
+            user = User(nome=resultado['email'], senha=senha)
+            user.id = resultado['id'] 
             login_user(user)
+
             flash('Login realizado com sucesso!', category='success')
             return redirect(url_for('dash'))
         else:
@@ -135,6 +136,20 @@ def delete():
         flash("Você não pode deletar a si mesmo!", category='error')
 
     return redirect(url_for('dash'))
+
+
+@app.route('/minhas_atividades')
+@login_required
+def minhas_atividades():
+    conexao = obter_conexao()
+    atividades = conexao.execute("""
+        SELECT ati_id, nome_atividade, descricao_atividade, data_atividade
+        FROM atividades
+        WHERE user_id = ?
+    """, (current_user.id,)).fetchall()
+    conexao.close()
+
+    return render_template('minhas_atividades.html', atividades=atividades)
 
 
 if __name__ == '__main__':

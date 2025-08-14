@@ -13,11 +13,16 @@ class User(UserMixin):
     @classmethod
     def get(cls, user_id):
         conexao = obter_conexao()
-        sql = "SELECT * FROM users WHERE email = ?"
-        resultado = conexao.execute(sql, (user_id,) ).fetchone()
-        user = User(nome=resultado['email'], senha=resultado['senha'])
-        user.id = resultado['email']
-        return user
+        sql = "SELECT * FROM users WHERE id = ?"
+        resultado = conexao.execute(sql, (user_id,)).fetchone()
+        conexao.close()
+
+        if resultado:
+            user = User(nome=resultado['email'], senha=resultado['senha'])
+            user.id = resultado['id'] 
+            return user
+        return None
+    
     @classmethod
     def all(cls):
 

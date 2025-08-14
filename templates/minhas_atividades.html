@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Minhas Atividades
+{% endblock %}
+
+{% block conteudo %}
+<h1>Minhas Atividades</h1>
+
+{% if atividades %}
+<table border="1" cellpadding="5">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Data</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for atv in atividades %}
+        <tr>
+            <td>{{ atv['nome_atividade'] }}</td>
+            <td>{{ atv['descricao_atividade'] }}</td>
+            <td>{{ atv['data_atividade'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Você ainda não cadastrou nenhuma atividade.</p>
+{% endif %}
+
+<a href="{{ url_for('cadastrar_atividade') }}">Cadastrar nova atividade</a>
+<a href="{{ url_for('dash') }}">Voltar ao dash</a>
+{% endblock %}
