@@ -1,11 +1,9 @@
 from flask_login import UserMixin
-
-from flask import session, flash
-
 from database import obter_conexao
 
 class User(UserMixin):
     email: str
+
     def __init__(self, nome, senha):
         self.nome = nome
         self.senha = senha
@@ -14,53 +12,42 @@ class User(UserMixin):
     def get(cls, user_id):
         conexao = obter_conexao()
         sql = "SELECT * FROM users WHERE email = ?"
-        resultado = conexao.execute(sql, (user_id,) ).fetchone()
+        resultado = conexao.execute(sql, (user_id,)).fetchone()
+        conexao.close()
+
+        if resultado is None:
+            return None  # Evita o TypeError se o usuário não existir
+
         user = User(nome=resultado['email'], senha=resultado['senha'])
         user.id = resultado['email']
         return user
+
     @classmethod
     def all(cls):
-
         conexao = obter_conexao()
         sql = "SELECT email FROM users"
         resultado = conexao.execute(sql).fetchall()
-        lista_emails = []
-        for linha in resultado:
-            lista_emails.append(linha["email"])
-        return lista_emails
-    
-    @classmethod
+        conexao.close()
 
+        lista_emails = [linha["email"] for linha in resultado]
+        return lista_emails
+
+    @classmethod
     def find_email(cls, email):
         conexao = obter_conexao()
         sql = "SELECT email FROM users WHERE email LIKE ?"
         resultado = conexao.execute(sql, ('%' + email + '%',)).fetchall()
         conexao.close()
-        lista_emails = []
-        for linha in resultado:
-            lista_emails.append(linha["email"])
+
+        lista_emails = [linha["email"] for linha in resultado]
         return lista_emails
+
+    @classmethod
+    def delete(cls, email):
+        conexao = obter_conexao()
+        conexao.execute("DELETE FROM users WHERE email = ?", (email,))
+        conexao.commit()
+        conexao.close()
 
     def save(self):
         pass
-
-
-
-
-
-    @classmethod
-
-
-    def delete(cls, email):
-
-
-        conexao = obter_conexao()
-
-
-        conexao.execute("DELETE FROM users WHERE email = ?", (email,))
-
-
-        conexao.commit()
-
-
-        conexao.close()
