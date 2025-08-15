@@ -33,7 +33,7 @@ def register():
         ).fetchone()
 
         if existente:
-            flash("E-mail já cadastrado!", "error")
+            flash("E-mail já cadastrado!", "register_error")
             conexao.close()
             return redirect(url_for("register"))
 
@@ -44,7 +44,7 @@ def register():
         conexao.commit()
         conexao.close()
 
-        flash("Usuário registrado com sucesso!", "success")
+        flash("Usuário registrado com sucesso!", "register_success")
         return redirect(url_for("login"))
 
     return render_template("cadastro.html")
@@ -69,10 +69,10 @@ def login():
                 senha=resultado['senha']
             )
             login_user(user)
-            flash("Login realizado com sucesso!", "success")
+            flash("Login realizado com sucesso!", "login_success")
             return redirect(url_for("dash"))
         else:
-            flash("Email ou senha incorretos!", "error")
+            flash("Email ou senha incorretos!", "login_error")
 
     return render_template("login.html")
 
@@ -110,14 +110,14 @@ def cadastrar_atividade():
         descricao = request.form.get('descricao')
 
         if not nome_atividade:
-            flash("O nome da atividade é obrigatório.", category='error')
+            flash("O nome da atividade é obrigatório.", category='nome_error')
         else:
             conexao.execute(
                 "INSERT INTO atividades (nome, descricao, user_id) VALUES (?, ?, ?)",
                 (nome_atividade, descricao, current_user.id)
             )
             conexao.commit()
-            flash("Atividade cadastrada com sucesso!", category='success')
+            flash("Atividade cadastrada com sucesso!", category='cadastroatv_success')
 
     # Filtra atividades do usuário logado
     atividades = conexao.execute(
@@ -127,6 +127,40 @@ def cadastrar_atividade():
 
     conexao.close()
     return render_template('cadastrar_atividade.html', atividades=atividades)
+
+
+@app.route('/editar_atividade/<int:atividade_id>', methods=['GET', 'POST'])
+@login_required
+def editar_atividade(atividade_id):
+    conexao = obter_conexao()
+    atividade = conexao.execute(
+        "SELECT * FROM atividades WHERE id = ? AND user_id = ?",
+        (atividade_id, current_user.id)
+    ).fetchone()
+
+    if not atividade:
+        flash("Atividade não encontrada.", category="editaratv_error")
+        conexao.close()
+        return redirect(url_for('cadastrar_atividade'))
+
+    if request.method == "POST":
+        nome = request.form.get("nome")
+        descricao = request.form.get("descricao")
+
+        if not nome:
+            flash("O nome da atividade é obrigatório.", category="nome_error")
+        else:
+            conexao.execute(
+                "UPDATE atividades SET nome = ?, descricao = ? WHERE id = ? AND user_id = ?",
+                (nome, descricao, atividade_id, current_user.id)
+            )
+            conexao.commit()
+            flash("Atividade atualizada com sucesso!", category="editatv_success")
+            conexao.close()
+            return redirect(url_for("cadastrar_atividade"))
+
+    conexao.close()
+    return render_template("editar_atividade.html", atividade=atividade)
 
 
 @app.route('/delete_atividade', methods=['POST'])
@@ -140,7 +174,7 @@ def delete_atividade():
     )
     conexao.commit()
     conexao.close()
-    flash("Atividade removida com sucesso!", category='success')
+    flash("Atividade removida com sucesso!", category='deletatv_success')
     return redirect(url_for('cadastrar_atividade'))
 
 

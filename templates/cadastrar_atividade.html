@@ -2,10 +2,11 @@
 
 {% block conteudo %}
 
-
 <div class="main-content_atividade">
+    
         <h1>Cadastrar Atividade</h1>
  <form action="{{url_for('cadastrar_atividade')}}" method="POST" class="atividade_form">
+
 
             <div class="nome_atividade">
                 <input type="text" name="nome" placeholder="Nome da atividade">
@@ -19,12 +20,18 @@
 </div>  
 
 
-<h1>Atividades Cadastradas</h1>
+<div class="main-content_atividades_cadastradas">
+        <h1>Atividades Cadastradas</h1>
 {% if atividades %}
     <ul>
     {% for atv in atividades %}
         <li>
             <strong>{{ atv['nome'] }}</strong> - {{ atv['descricao'] }}
+
+            <form action="{{ url_for('editar_atividade', atividade_id=atv['id']) }}" method="GET" style="display:inline;">
+            <button type="submit">Editar</button>
+            </form>
+
             <form method="POST" action="{{ url_for('delete_atividade') }}" style="display:inline;">
                 <input type="hidden" name="atividade_id" value="{{ atv['id'] }}">
                 <button type="submit">Excluir</button>
@@ -36,3 +43,5 @@
     <p>Nenhuma atividade cadastrada.</p>
 {% endif %}
 {% endblock %}  
+</div>  
+    

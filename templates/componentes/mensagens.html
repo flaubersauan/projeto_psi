@@ -1,0 +1,11 @@
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      {% if category in ["login_success", "register_success", "cadastroatv_sucess", "editatv_sucess"] %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% elif category in ["login_error", "register_error", "nome_error"] %}
+        <div class="alert alert-error">{{ message }}</div>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endwith %}

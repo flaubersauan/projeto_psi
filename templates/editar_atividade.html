@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+{% include 'componentes/mensagens.html' %}
+<div class="main-content_atividade">
+    <h1>Editar Atividade</h1>
+    <form action="{{ url_for('editar_atividade', atividade_id=atividade['id']) }}" method="POST" class="atividade_form">
+        <div class="nome_atividade">
+            <input type="text" name="nome" placeholder="Nome da atividade" value="{{ atividade['nome'] }}">
+        </div>
+        <div class="descricao_atividade">
+            <textarea name="descricao" placeholder="Descrição" rows="6">{{ atividade['descricao'] }}</textarea>
+        </div>
+        <button type="submit">Salvar Alterações</button>
+    </form>
+</div>
+{% endblock %}

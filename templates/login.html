@@ -6,15 +6,17 @@
 
 
 {% block conteudo %}
+
 <form action="{{url_for('login')}}" method="POST">
         
         <h1>Login</h1>
+        {% include 'componentes/mensagens.html' %}
         <div class="logo-container">
             <div class="logo_gerenciador">
                 <div class="checkmark-container">
                     <div class="checkmark"></div>
                 </div>
-                <span class="text_logo">Gerenciador de estudos</span>
+                <span class="text_logo">Gerenciador de tarefas</span>
             </div>
             </div>
             <div class="email">
