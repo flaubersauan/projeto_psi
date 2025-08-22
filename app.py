@@ -93,7 +93,6 @@ def dash():
 def cadastrar_atividade():
     conexao = obter_conexao()
 
-    # Cria a tabela com user_id vinculado ao usuário
     conexao.execute("""
         CREATE TABLE IF NOT EXISTS atividades (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -119,7 +118,6 @@ def cadastrar_atividade():
             conexao.commit()
             flash("Atividade cadastrada com sucesso!", category='cadastroatv_success')
 
-    # Filtra atividades do usuário logado
     atividades = conexao.execute(
         "SELECT * FROM atividades WHERE user_id = ?",
         (current_user.id,)
